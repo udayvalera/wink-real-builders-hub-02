@@ -1,21 +1,28 @@
-
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import SearchDropdown from './SearchDropdown';
 
+interface SearchResult {
+  type: 'user' | 'post' | 'challenge' | 'trending';
+  id: string;
+  title: string;
+  subtitle?: string;
+  avatar?: string;
+}
+
 const RightSidebar = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Mock data for search results
-  const mockSearchData = [
-    { type: 'user', id: '1', title: 'Sarah Johnson', subtitle: '@sarah.johnson', avatar: '/placeholder-avatar.jpg' },
-    { type: 'user', id: '2', title: 'Mike Chen', subtitle: '@mike.chen', avatar: '/placeholder-avatar.jpg' },
-    { type: 'post', id: '1', title: 'Mix up how you make money—think analytics...', subtitle: 'by @apex.legends' },
-    { type: 'post', id: '2', title: 'Just finished building a new feature...', subtitle: 'by @sarah.johnson' },
-    { type: 'challenge', id: '1', title: 'Frontend Challenge', subtitle: 'Ends in 2 days' },
-    { type: 'challenge', id: '2', title: 'Marketing Runners - Interviews', subtitle: 'Ends May 23rd' },
-    { type: 'trending', id: '1', title: '#TechHiring', subtitle: '1.2k posts' },
-    { type: 'trending', id: '2', title: '#DeveloperCommunity', subtitle: '856 posts' },
+  // Mock data for search results - properly typed
+  const mockSearchData: SearchResult[] = [
+    { type: 'user' as const, id: '1', title: 'Sarah Johnson', subtitle: '@sarah.johnson', avatar: '/placeholder-avatar.jpg' },
+    { type: 'user' as const, id: '2', title: 'Mike Chen', subtitle: '@mike.chen', avatar: '/placeholder-avatar.jpg' },
+    { type: 'post' as const, id: '1', title: 'Mix up how you make money—think analytics...', subtitle: 'by @apex.legends' },
+    { type: 'post' as const, id: '2', title: 'Just finished building a new feature...', subtitle: 'by @sarah.johnson' },
+    { type: 'challenge' as const, id: '1', title: 'Frontend Challenge', subtitle: 'Ends in 2 days' },
+    { type: 'challenge' as const, id: '2', title: 'Marketing Runners - Interviews', subtitle: 'Ends May 23rd' },
+    { type: 'trending' as const, id: '1', title: '#TechHiring', subtitle: '1.2k posts' },
+    { type: 'trending' as const, id: '2', title: '#DeveloperCommunity', subtitle: '856 posts' },
   ];
 
   const searchResults = useMemo(() => {
@@ -27,7 +34,7 @@ const RightSidebar = () => {
     );
   }, [searchQuery, mockSearchData]);
 
-  const handleSearchSelect = (result: any) => {
+  const handleSearchSelect = (result: SearchResult) => {
     console.log('Selected:', result);
     
     // Enhanced navigation handling
