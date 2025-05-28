@@ -27,6 +27,7 @@ interface Comment {
     timestamp: string;
   };
   content: string;
+  image?: string | null;
 }
 
 interface PostModalProps {
@@ -45,7 +46,8 @@ const PostModal = ({ post, isOpen, onClose }: PostModalProps) => {
         avatar: '/placeholder-avatar.jpg',
         timestamp: '1 hour ago'
       },
-      content: 'This is exactly what the industry needs! Finally someone addressing the real issues with traditional hiring.'
+      content: 'This is exactly what the industry needs! Finally someone addressing the real issues with traditional hiring.',
+      image: '/lovable-uploads/739812b0-4170-4d68-a310-3f0e364d0040.png'
     },
     {
       id: 2,
@@ -195,12 +197,29 @@ const PostModal = ({ post, isOpen, onClose }: PostModalProps) => {
                     <h5 className="font-semibold text-gray-900">{comment.user.name}</h5>
                     <span className="text-sm text-gray-500">{comment.user.timestamp}</span>
                   </div>
-                  <p className="text-gray-700 leading-relaxed">{comment.content}</p>
-                  <div className="mt-2">
-                    <button className="flex items-center space-x-1 text-gray-500 hover:text-red-500 transition-colors">
-                      <Heart size={16} />
-                      <span className="text-sm">Like</span>
-                    </button>
+                  
+                  {/* Comment content with media side by side */}
+                  <div className="flex space-x-4">
+                    <div className="flex-1">
+                      <p className="text-gray-700 leading-relaxed">{comment.content}</p>
+                      <div className="mt-2">
+                        <button className="flex items-center space-x-1 text-gray-500 hover:text-red-500 transition-colors">
+                          <Heart size={16} />
+                          <span className="text-sm">Like</span>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    {/* Comment media on the right */}
+                    {comment.image && (
+                      <div className="flex-shrink-0">
+                        <img
+                          src={comment.image}
+                          alt="Comment media"
+                          className="w-32 h-24 object-cover rounded-lg"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
