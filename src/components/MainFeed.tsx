@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import { Paperclip, Pin, Image, Heart, Search } from 'lucide-react';
 import PostCard from './PostCard';
+import PostModal from './PostModal';
 
 const MainFeed = () => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [postContent, setPostContent] = useState('');
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filters = ['All', 'Gossip', 'Frontend', 'Backend', 'Frontend', 'Marketing', 'Design'];
 
@@ -43,6 +46,16 @@ const MainFeed = () => {
       }
     }
   ];
+
+  const handlePostClick = (post: any) => {
+    setSelectedPost(post);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPost(null);
+  };
 
   return (
     <div className="flex-1 ml-60 mr-80 px-8 py-8">
@@ -104,9 +117,22 @@ const MainFeed = () => {
       {/* Feed */}
       <div className="space-y-6">
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard 
+            key={post.id} 
+            post={post} 
+            onClick={() => handlePostClick(post)}
+          />
         ))}
       </div>
+
+      {/* Post Modal */}
+      {selectedPost && (
+        <PostModal
+          post={selectedPost}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

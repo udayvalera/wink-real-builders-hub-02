@@ -21,11 +21,15 @@ interface Post {
 
 interface PostCardProps {
   post: Post;
+  onClick?: () => void;
 }
 
-const PostCard = ({ post }: PostCardProps) => {
+const PostCard = ({ post, onClick }: PostCardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div 
+      className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-shadow"
+      onClick={onClick}
+    >
       {/* User Info */}
       <div className="flex items-center space-x-3 mb-4">
         <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
