@@ -1,15 +1,18 @@
 
 import React from 'react';
 import { Home, Briefcase, Trophy, Bell, Bookmark, User } from 'lucide-react';
+import { useLocation, Link } from 'react-router-dom';
 
 const DashboardSidebar = () => {
+  const location = useLocation();
+  
   const navigationItems = [
-    { icon: Home, label: 'Home', active: true },
-    { icon: Briefcase, label: 'Jobs / Internships', active: false },
-    { icon: Trophy, label: 'Challenges', active: false },
-    { icon: Bell, label: 'Notifications', active: false },
-    { icon: Bookmark, label: 'Bookmarks', active: false },
-    { icon: User, label: 'Profile', active: false }
+    { icon: Home, label: 'Home', path: '/dashboard', active: location.pathname === '/dashboard' },
+    { icon: Briefcase, label: 'Jobs / Internships', path: '#', active: false },
+    { icon: Trophy, label: 'Challenges', path: '#', active: false },
+    { icon: Bell, label: 'Notifications', path: '#', active: false },
+    { icon: Bookmark, label: 'Bookmarks', path: '#', active: false },
+    { icon: User, label: 'Profile', path: '/profile', active: location.pathname === '/profile' }
   ];
 
   const performanceMetrics = [
@@ -29,10 +32,15 @@ const DashboardSidebar = () => {
       <nav className="space-y-2 mb-16">
         {navigationItems.map((item) => {
           const IconComponent = item.icon;
+          const Component = item.path.startsWith('#') ? 'a' : Link;
+          const linkProps = item.path.startsWith('#') 
+            ? { href: item.path }
+            : { to: item.path };
+          
           return (
-            <a
+            <Component
               key={item.label}
-              href="#"
+              {...linkProps}
               className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-colors ${
                 item.active
                   ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600'
@@ -41,7 +49,7 @@ const DashboardSidebar = () => {
             >
               <IconComponent size={20} />
               <span className="font-medium">{item.label}</span>
-            </a>
+            </Component>
           );
         })}
       </nav>
