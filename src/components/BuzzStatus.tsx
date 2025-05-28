@@ -2,46 +2,33 @@
 import React, { useState } from 'react';
 
 interface BuzzStatusProps {
-  isBuzzing: boolean;
+  userId: string;
+  initialIsFollowing?: boolean;
+  onFollowChange?: (isFollowing: boolean) => void;
 }
 
-const BuzzStatus = ({ isBuzzing }: BuzzStatusProps) => {
-  const [showTooltip, setShowTooltip] = useState(false);
+const BuzzStatus = ({ userId, initialIsFollowing = false, onFollowChange }: BuzzStatusProps) => {
+  const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
 
-  const handleClick = () => {
-    setShowTooltip(true);
-    setTimeout(() => setShowTooltip(false), 3000);
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newFollowingState = !isFollowing;
+    setIsFollowing(newFollowingState);
+    onFollowChange?.(newFollowingState);
   };
 
   return (
-    <div className="relative">
-      <button
-        onClick={handleClick}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-        className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 hover:scale-105 ${
-          isBuzzing 
-            ? 'bg-orange-100 text-orange-700 border border-orange-200' 
-            : 'bg-gray-100 text-gray-600 border border-gray-200'
-        }`}
-        aria-label={isBuzzing ? "This post is buzzing" : "Post buzz status"}
-      >
-        {isBuzzing ? 'buzzing' : 'buzz'}
-      </button>
-      
-      {/* Tooltip */}
-      {showTooltip && (
-        <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-10 animate-fade-in">
-          <div className="bg-gray-900 text-white text-xs rounded-md px-3 py-2 whitespace-nowrap">
-            {isBuzzing 
-              ? "This post is currently trending due to high engagement!" 
-              : "This post is not currently buzzing"
-            }
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-900"></div>
-          </div>
-        </div>
-      )}
-    </div>
+    <button
+      onClick={handleClick}
+      className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 hover:scale-105 border ${
+        isFollowing 
+          ? 'bg-blue-600 text-white border-blue-600' 
+          : 'bg-white text-blue-600 border-blue-600'
+      }`}
+      aria-label={isFollowing ? "Unfollow this user" : "Follow this user"}
+    >
+      {isFollowing ? 'Buzzing' : 'Buzz'}
+    </button>
   );
 };
 

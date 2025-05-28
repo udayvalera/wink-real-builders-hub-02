@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X, Heart, MessageSquare, Share } from 'lucide-react';
 import BuzzStatus from './BuzzStatus';
@@ -102,6 +103,11 @@ const PostModal = ({ post, isOpen, onClose }: PostModalProps) => {
     incrementShares();
   };
 
+  const handleFollowChange = (isFollowing: boolean) => {
+    console.log(`User ${isFollowing ? 'followed' : 'unfollowed'} ${post.user.name}`);
+    // In a real app, this would make an API call to update the follow status
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -136,7 +142,11 @@ const PostModal = ({ post, isOpen, onClose }: PostModalProps) => {
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
                     <h4 className="font-semibold text-gray-900 text-lg">{post.user.name}</h4>
-                    <BuzzStatus isBuzzing={state.isBuzzing} />
+                    <BuzzStatus 
+                      userId={post.user.name} 
+                      initialIsFollowing={false}
+                      onFollowChange={handleFollowChange}
+                    />
                     {post.tags.filter(tag => tag !== 'buzzing').map((tag) => (
                       <span
                         key={tag}
