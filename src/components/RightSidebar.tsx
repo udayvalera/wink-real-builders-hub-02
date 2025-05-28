@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import SearchDropdown from './SearchDropdown';
 
 interface SearchResult {
@@ -12,6 +13,7 @@ interface SearchResult {
 
 const RightSidebar = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   // Mock data for search results - properly typed
   const mockSearchData: SearchResult[] = [
@@ -39,11 +41,12 @@ const RightSidebar = () => {
     
     // Enhanced navigation handling
     if (result.type === 'user') {
-      // Navigate to user profile - using query param for compatibility
-      window.location.href = `/profile?user=${result.id}`;
+      // Navigate to public user profile using username from subtitle
+      const username = result.subtitle?.replace('@', '') || result.id;
+      navigate(`/${username}`);
     } else if (result.type === 'post') {
       // Navigate to single post view
-      window.location.href = `/post?id=${result.id}`;
+      navigate(`/post?id=${result.id}`);
     } else if (result.type === 'challenge') {
       // Navigate to challenge page (would need to be implemented)
       console.log('Navigate to challenge:', result.id);

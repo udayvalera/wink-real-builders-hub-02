@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Heart, MessageSquare, Share } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import BuzzStatus from './BuzzStatus';
 import SharePostModal from './SharePostModal';
 import { usePostInteractions } from '../hooks/usePostInteractions';
@@ -29,6 +30,7 @@ interface PostCardProps {
 
 const PostCard = ({ post, onClick }: PostCardProps) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const navigate = useNavigate();
   
   const { state, toggleLike, incrementShares } = usePostInteractions({
     isLiked: false, // In a real app, this would come from user data
@@ -53,6 +55,13 @@ const PostCard = ({ post, onClick }: PostCardProps) => {
     onClick?.();
   };
 
+  const handleUserClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Convert user name to username format (remove spaces, lowercase)
+    const username = post.user.name.toLowerCase().replace(/\s+/g, '.');
+    navigate(`/${username}`);
+  };
+
   const handleShare = () => {
     incrementShares();
   };
@@ -70,10 +79,18 @@ const PostCard = ({ post, onClick }: PostCardProps) => {
       >
         {/* User Info */}
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+          <div 
+            className="w-10 h-10 bg-gray-300 rounded-full cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleUserClick}
+          ></div>
           <div className="flex-1">
             <div className="flex items-center space-x-2">
-              <h4 className="font-semibold text-gray-900">{post.user.name}</h4>
+              <h4 
+                className="font-semibold text-gray-900 cursor-pointer hover:text-blue-600 transition-colors"
+                onClick={handleUserClick}
+              >
+                {post.user.name}
+              </h4>
               <BuzzStatus 
                 userId={post.user.name} 
                 initialIsFollowing={false}
