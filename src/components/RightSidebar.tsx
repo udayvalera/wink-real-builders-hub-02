@@ -1,8 +1,50 @@
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
+import SearchDropdown from './SearchDropdown';
 
 const RightSidebar = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Mock data for search results
+  const mockSearchData = [
+    { type: 'user', id: '1', title: 'Sarah Johnson', subtitle: '@sarah.johnson', avatar: '/placeholder-avatar.jpg' },
+    { type: 'user', id: '2', title: 'Mike Chen', subtitle: '@mike.chen', avatar: '/placeholder-avatar.jpg' },
+    { type: 'post', id: '1', title: 'Mix up how you make money—think analytics...', subtitle: 'by @apex.legends' },
+    { type: 'post', id: '2', title: 'Just finished building a new feature...', subtitle: 'by @sarah.johnson' },
+    { type: 'challenge', id: '1', title: 'Frontend Challenge', subtitle: 'Ends in 2 days' },
+    { type: 'challenge', id: '2', title: 'Marketing Runners - Interviews', subtitle: 'Ends May 23rd' },
+    { type: 'trending', id: '1', title: '#TechHiring', subtitle: '1.2k posts' },
+    { type: 'trending', id: '2', title: '#DeveloperCommunity', subtitle: '856 posts' },
+  ];
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    
+    return mockSearchData.filter(item => 
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (item.subtitle && item.subtitle.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [searchQuery, mockSearchData]);
+
+  const handleSearchSelect = (result: any) => {
+    console.log('Selected:', result);
+    // Handle navigation based on result type
+    if (result.type === 'user') {
+      // Navigate to user profile
+      window.location.href = `/profile?user=${result.id}`;
+    } else if (result.type === 'post') {
+      // Open post modal or navigate to post
+      window.location.href = `/post?id=${result.id}`;
+    }
+    setSearchQuery('');
+  };
+
+  const handleViewAll = () => {
+    console.log('View all results for:', searchQuery);
+    // Navigate to full search results page
+  };
+
   const pendingContests = [
     {
       name: 'Marketing Runners - Interviews',
@@ -36,8 +78,16 @@ const RightSidebar = () => {
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
         <input
           type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="search things to buzz ur mind"
           className="w-full pl-10 pr-4 py-3 bg-white rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <SearchDropdown
+          query={searchQuery}
+          results={searchResults}
+          onSelect={handleSearchSelect}
+          onViewAll={handleViewAll}
         />
       </div>
 

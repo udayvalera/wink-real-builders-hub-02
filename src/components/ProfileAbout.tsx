@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Link as LinkIcon, Mail, User } from 'lucide-react';
+import { Link as LinkIcon, Mail } from 'lucide-react';
 
 interface User {
   id: string;
@@ -45,11 +45,6 @@ const ProfileAbout = ({ user }: ProfileAboutProps) => {
           <div className="flex items-center space-x-2 text-gray-600">
             <Mail className="w-4 h-4" />
             <span>{user.email}</span>
-          </div>
-          
-          <div className="flex items-center space-x-2 text-gray-600">
-            <User className="w-4 h-4" />
-            <span className="capitalize">{user.role}</span>
           </div>
         </div>
       </CardContent>

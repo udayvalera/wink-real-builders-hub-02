@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import { Paperclip, Pin, Image, Heart, Search } from 'lucide-react';
 import PostCard from './PostCard';
 import PostModal from './PostModal';
+import CreatePostModal from './CreatePostModal';
 
 const MainFeed = () => {
   const [activeFilter, setActiveFilter] = useState('All');
-  const [postContent, setPostContent] = useState('');
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
 
   const filters = ['All', 'Gossip', 'Frontend', 'Backend', 'Frontend', 'Marketing', 'Design'];
 
@@ -57,6 +58,11 @@ const MainFeed = () => {
     setSelectedPost(null);
   };
 
+  const handleCreatePost = (content: string, attachments?: File[]) => {
+    console.log('Creating post:', content, attachments);
+    // In a real app, this would make an API call to create the post
+  };
+
   return (
     <div className="flex-1 ml-60 mr-80 px-8 py-8">
       {/* Filter Tabs */}
@@ -79,39 +85,17 @@ const MainFeed = () => {
         </button>
       </div>
 
-      {/* Post Creation */}
+      {/* Post Creation Trigger */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-        <div className="flex space-x-4">
+        <button
+          onClick={() => setIsCreatePostOpen(true)}
+          className="w-full flex items-center space-x-4 text-left"
+        >
           <div className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"></div>
-          <div className="flex-1">
-            <textarea
-              value={postContent}
-              onChange={(e) => setPostContent(e.target.value)}
-              placeholder="Write and Wink to your thoughts here..."
-              className="w-full resize-none border-0 focus:ring-0 text-gray-700 placeholder-gray-500"
-              rows={3}
-            />
-            <div className="flex items-center justify-between mt-4">
-              <div className="flex items-center space-x-4 text-gray-500">
-                <button className="hover:text-blue-600">
-                  <Paperclip size={20} />
-                </button>
-                <button className="hover:text-blue-600">
-                  <Pin size={20} />
-                </button>
-                <button className="hover:text-blue-600">
-                  <Image size={20} />
-                </button>
-              </div>
-              <div className="flex items-center space-x-4">
-                <span className="text-xs text-gray-400">{postContent.length}/400</span>
-                <button className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                  Post
-                </button>
-              </div>
-            </div>
+          <div className="flex-1 py-3 px-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+            <span className="text-gray-500">Write and Wink your thoughts here...</span>
           </div>
-        </div>
+        </button>
       </div>
 
       {/* Feed */}
@@ -133,6 +117,13 @@ const MainFeed = () => {
           onClose={handleCloseModal}
         />
       )}
+
+      {/* Create Post Modal */}
+      <CreatePostModal
+        isOpen={isCreatePostOpen}
+        onClose={() => setIsCreatePostOpen(false)}
+        onPost={handleCreatePost}
+      />
     </div>
   );
 };

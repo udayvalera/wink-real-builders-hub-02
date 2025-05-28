@@ -186,14 +186,6 @@ const ProfileForm = ({ userData, onSave, onCancel }: ProfileFormProps) => {
                 className="mt-1"
               />
             </div>
-
-            <div>
-              <Label className="text-sm font-semibold text-gray-700">Role</Label>
-              <div className="mt-1 px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-700">
-                {userData.role}
-              </div>
-              <p className="text-xs text-gray-500 mt-1">Contact support to change your role.</p>
-            </div>
           </div>
 
           {/* Form Actions */}
