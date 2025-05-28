@@ -32,24 +32,36 @@ const DashboardSidebar = () => {
       <nav className="space-y-2 mb-16">
         {navigationItems.map((item) => {
           const IconComponent = item.icon;
-          const Component = item.path.startsWith('#') ? 'a' : Link;
-          const linkProps = item.path.startsWith('#') 
-            ? { href: item.path }
-            : { to: item.path };
+          const baseClassName = `flex items-center space-x-3 px-3 py-3 rounded-lg transition-colors ${
+            item.active
+              ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600'
+              : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+          }`;
           
+          // Render Link component for internal routes
+          if (item.path.startsWith('/')) {
+            return (
+              <Link
+                key={item.label}
+                to={item.path}
+                className={baseClassName}
+              >
+                <IconComponent size={20} />
+                <span className="font-medium">{item.label}</span>
+              </Link>
+            );
+          }
+          
+          // Render anchor tag for external links or placeholder links
           return (
-            <Component
+            <a
               key={item.label}
-              {...linkProps}
-              className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-colors ${
-                item.active
-                  ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-              }`}
+              href={item.path}
+              className={baseClassName}
             >
               <IconComponent size={20} />
               <span className="font-medium">{item.label}</span>
-            </Component>
+            </a>
           );
         })}
       </nav>
