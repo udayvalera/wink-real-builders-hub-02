@@ -11,7 +11,6 @@ interface User {
   bio: string;
   profilePictureUrl?: string;
   websiteUrl?: string;
-  role: string;
 }
 
 interface ProfileAboutProps {

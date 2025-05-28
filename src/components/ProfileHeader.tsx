@@ -12,7 +12,6 @@ interface User {
   bio: string;
   profilePictureUrl?: string;
   websiteUrl?: string;
-  role: string;
   following: number;
   followers: number;
   posts: number;

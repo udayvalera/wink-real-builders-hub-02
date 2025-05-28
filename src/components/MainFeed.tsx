@@ -63,6 +63,11 @@ const MainFeed = () => {
     // In a real app, this would make an API call to create the post
   };
 
+  // Handle clicking on the post creation trigger
+  const handlePostTriggerClick = () => {
+    setIsCreatePostOpen(true);
+  };
+
   return (
     <div className="flex-1 ml-60 mr-80 px-8 py-8">
       {/* Filter Tabs */}
@@ -85,17 +90,17 @@ const MainFeed = () => {
         </button>
       </div>
 
-      {/* Post Creation Trigger */}
+      {/* Post Creation Trigger - Updated for better interaction */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-        <button
-          onClick={() => setIsCreatePostOpen(true)}
-          className="w-full flex items-center space-x-4 text-left"
+        <div
+          onClick={handlePostTriggerClick}
+          className="w-full flex items-center space-x-4 cursor-pointer hover:bg-gray-50 transition-colors rounded-lg p-2 -m-2"
         >
           <div className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"></div>
           <div className="flex-1 py-3 px-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
             <span className="text-gray-500">Write and Wink your thoughts here...</span>
           </div>
-        </button>
+        </div>
       </div>
 
       {/* Feed */}

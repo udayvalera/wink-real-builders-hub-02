@@ -6,7 +6,7 @@ import ProfileActivity from './ProfileActivity';
 import ProfileForm from './ProfileForm';
 import { useToast } from '@/hooks/use-toast';
 
-// Mock user data based on the specifications
+// Mock user data - removed role field
 const mockUser = {
   id: '1',
   fullName: 'Sarah Johnson',
@@ -15,7 +15,6 @@ const mockUser = {
   bio: 'Passionate Full-stack developer with 5+ years experience building scalable web applications. Love working with React, Node.js, and cloud technologies. Always eager to learn new technologies and solve complex problems.',
   profilePictureUrl: '/placeholder-avatar.jpg',
   websiteUrl: 'https://sarahjohnson.dev',
-  role: 'Developer',
   isOnboarded: true,
   createdAt: new Date('2023-01-15'),
   updatedAt: new Date('2024-01-15'),

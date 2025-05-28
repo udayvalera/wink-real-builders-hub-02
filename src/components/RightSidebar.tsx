@@ -29,20 +29,29 @@ const RightSidebar = () => {
 
   const handleSearchSelect = (result: any) => {
     console.log('Selected:', result);
-    // Handle navigation based on result type
+    
+    // Enhanced navigation handling
     if (result.type === 'user') {
-      // Navigate to user profile
+      // Navigate to user profile - using query param for compatibility
       window.location.href = `/profile?user=${result.id}`;
     } else if (result.type === 'post') {
-      // Open post modal or navigate to post
+      // Navigate to single post view
       window.location.href = `/post?id=${result.id}`;
+    } else if (result.type === 'challenge') {
+      // Navigate to challenge page (would need to be implemented)
+      console.log('Navigate to challenge:', result.id);
+    } else if (result.type === 'trending') {
+      // Navigate to trending topic (would filter main feed)
+      console.log('Navigate to trending topic:', result.title);
     }
+    
+    // Clear search after selection
     setSearchQuery('');
   };
 
   const handleViewAll = () => {
     console.log('View all results for:', searchQuery);
-    // Navigate to full search results page
+    // Navigate to full search results page (would need to be implemented)
   };
 
   const pendingContests = [
@@ -73,7 +82,7 @@ const RightSidebar = () => {
 
   return (
     <div className="w-80 bg-gray-50 h-screen fixed right-0 top-0 p-6 overflow-y-auto">
-      {/* Search */}
+      {/* Enhanced Search with better dropdown positioning */}
       <div className="relative mb-8">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
         <input
@@ -81,7 +90,7 @@ const RightSidebar = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="search things to buzz ur mind"
-          className="w-full pl-10 pr-4 py-3 bg-white rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full pl-10 pr-4 py-3 bg-white rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
         />
         <SearchDropdown
           query={searchQuery}

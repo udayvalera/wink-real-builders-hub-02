@@ -15,7 +15,7 @@ interface ProfileActivityProps {
   user: User;
 }
 
-// Mock posts data - removed tags for profile activity
+// Mock posts data - no tags displayed for profile activity
 const mockPosts = [
   {
     id: 1,
@@ -24,7 +24,7 @@ const mockPosts = [
       avatar: '/placeholder-avatar.jpg',
       timestamp: '2 days ago'
     },
-    tags: [], // Removed tags from profile activity
+    tags: [], // No tags displayed in profile activity
     content: 'Just finished building a new feature for our platform! The component architecture is so much cleaner now. Love how React hooks make state management more intuitive.',
     image: '/lovable-uploads/739812b0-4170-4d68-a310-3f0e364d0040.png',
     engagement: {
@@ -40,7 +40,7 @@ const mockPosts = [
       avatar: '/placeholder-avatar.jpg',
       timestamp: '1 week ago'
     },
-    tags: [], // Removed tags from profile activity
+    tags: [], // No tags displayed in profile activity
     content: 'Contributing to open source projects has been one of the most rewarding experiences in my career. If you\'re thinking about getting started, just do it! The community is incredibly welcoming.',
     engagement: {
       likes: 78,
