@@ -5,17 +5,22 @@ import { useNavigate } from 'react-router-dom';
 interface SignInModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSignInSuccess?: () => void;
 }
 
-const SignInModal = ({ isOpen, onClose }: SignInModalProps) => {
+const SignInModal = ({ isOpen, onClose, onSignInSuccess }: SignInModalProps) => {
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
   const handleGoogleSignIn = () => {
-    // Dummy sign-in - just redirect to dashboard
+    // Dummy sign-in - just redirect to dashboard or call success callback
     onClose();
-    navigate('/dashboard');
+    if (onSignInSuccess) {
+      onSignInSuccess();
+    } else {
+      navigate('/dashboard');
+    }
   };
 
   return (
