@@ -13,7 +13,7 @@ const MainFeed = () => {
 
   const filters = ['All', 'Gossip', 'Frontend', 'Backend', 'Frontend', 'Marketing', 'Design'];
 
-  const posts = [
+  const [posts, setPosts] = useState([
     {
       id: 1,
       user: {
@@ -46,7 +46,7 @@ const MainFeed = () => {
         shares: 1
       }
     }
-  ];
+  ]);
 
   const handlePostClick = (post: any) => {
     setSelectedPost(post);
@@ -60,7 +60,27 @@ const MainFeed = () => {
 
   const handleCreatePost = (content: string, attachments?: File[]) => {
     console.log('Creating post:', content, attachments);
-    // In a real app, this would make an API call to create the post
+    
+    // Create new post object
+    const newPost = {
+      id: Math.max(...posts.map(p => p.id)) + 1, // Generate new ID
+      user: {
+        name: 'Current User', // In a real app, this would come from auth context
+        avatar: '/placeholder-avatar.jpg',
+        timestamp: 'Just now'
+      },
+      tags: ['buzzing'],
+      content: content,
+      image: attachments && attachments.length > 0 ? URL.createObjectURL(attachments[0]) : null,
+      engagement: {
+        likes: 0,
+        comments: 0,
+        shares: 0
+      }
+    };
+
+    // Add new post to the top of the feed
+    setPosts(prevPosts => [newPost, ...prevPosts]);
   };
 
   // Handle clicking on the post creation trigger
